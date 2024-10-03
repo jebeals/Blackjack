@@ -1,44 +1,50 @@
-public class Player {
+public class Player 
+{
     // name
     public string Name {get; set; }
 
     // hand
-    public Hand? Hand {get; set; }
+    public virtual Hand? Hand {get; set; }
 
     // role
     public string? Role {get; set; }
 
     // bank
-    public int Bank {get; set; }
+    public virtual double Bank {get; set; }
 
     // constructor
-    public Player(string name, Hand hand, string role, int bank) {
+    public Player()
+    {
+        // Nothing here
+        Name = ""; 
+    }
+    public Player(string name, Hand hand, string role, double bank) {
         this.Name = name;
         this.Hand = hand;
         this.Role = role;
         this.Bank = bank;
     }
 
-    public Player(int playerNumber, Hand hand, string role, int bank) {
+    public Player(int playerNumber, Hand hand, string role, double bank) {
         this.Name = $"Player {playerNumber}";
         this.Hand = hand;
         this.Role = role;
         this.Bank = bank;
     }
 
-    public Player(string name, string role, int bank) {
+    public Player(string name, string role, double bank) {
         this.Name = name;
         this.Role = role;
         this.Bank = bank;
     }
 
-    public Player(string name, Hand hand, int bank) {
+    public Player(string name, Hand hand, double bank) {
         this.Name = name;
         this.Hand = hand;
         this.Bank = bank;
     }
 
-    public Player(string name, int bank) {
+    public Player(string name, double bank) {
         this.Name = name;
         this.Bank = bank;
     }
