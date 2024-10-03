@@ -1,10 +1,10 @@
 public class Player 
 {
     // name
-    public string Name {get; set; }
+    public string? Name {get; set; }
 
     // hand
-    public virtual Hand? Hand {get; set; }
+    public virtual Hand Hand {get; set; }
 
     // role
     public string? Role {get; set; }
@@ -15,8 +15,12 @@ public class Player
     // constructor
     public Player()
     {
-        // Nothing here
-        Name = ""; 
+        Hand = new Hand(); 
+    }
+    public Player(string Name)
+    {
+        this.Name = Name;
+        Hand = new Hand(); 
     }
     public Player(string name, Hand hand, string role, double bank) {
         this.Name = name;

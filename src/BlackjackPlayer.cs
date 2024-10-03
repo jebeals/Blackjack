@@ -4,9 +4,23 @@ public class BlackjackPlayer : Player
 
     public BlackjackPlayer()
     {
-        // No new constructors to add. Already present in Player.cs
+        Hand = new BlackjackHand(); 
     }
-
+    public BlackjackPlayer(string Name)
+    {
+        this.Name = Name;
+        Hand = new BlackjackHand(); 
+    }
+    public BlackjackPlayer(string name, Hand hand, string role, double bank) : base(name, hand, role, bank)
+    {
+            // Everything kept the same; just redirect the Hand variable's {get; set; }
+            _blackjackHand = new BlackjackHand(); 
+    }
+    public BlackjackPlayer(string name, string role, double bank, BlackjackHand hand) : base(name, role, bank)
+    {
+            // Everything kept the same; just redirect the Hand variable's {get; set; }
+            _blackjackHand = hand; 
+    }
     public override Hand? Hand 
     {
         get { return _blackjackHand; } // Return BlackjackHand _blackjackHand instead of Hand Hand :D 

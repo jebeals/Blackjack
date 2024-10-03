@@ -5,15 +5,18 @@ using System.Threading.Tasks.Dataflow;
 public class BlackjackGame : CardGame
 {
     // public string Name {get; }
-    public Hand Dealer {get; set; }
-    // public Deck Deck {get; set; }
-    // public List<Hand>? Players {get; set;}
+    public Player Dealer {get; set; }
+
+    # region Inherited Field Reference
+    // public Deck? Deck {get; set; } //INHERITED
+    // public List<Player>? Players {get; set;} //INHERITED
+    #endregion
 
     public BlackjackGame()
     {
         Name = "Blackjack";
         Deck = new Deck();
-        Dealer = new Hand();
+        Dealer = new Player();
 
     }
     public BlackjackGame(int numPlayers, int numDecks) //: CardGame(int numPlayers, int numDecks)
@@ -23,25 +26,26 @@ public class BlackjackGame : CardGame
         Deck = new Deck(numDecks);
         Deck.Shuffle();
 
-        
-        Dealer = new Hand("Dealer"); // Set up the Dealer's Hand
+        //public BlackjackPlayer(string name, BlackjackHand hand, string role, double bank) : base(name, hand, role, bank)
+        BlackjackHand dealerHand = new BlackjackHand("Dealer"); 
+        Dealer = new BlackjackPlayer("Dealer","Dealer",0.0,new BlackjackHand("Dealer")); // Set up the Dealer's Hand
         for (int i = 0; i < numPlayers; i++) // Set up the Players Hands
         {
-            Players.Add(new Hand($"P{i+1}")); // Add in new player hands and call them P1, P2, etc.
+            Players.Add(new BlackjackPlayer($"P{i+1}","Player",0.0,new BlackjackHand($"P{i+1}"))); // Add in new player hands and call them P1, P2, etc.
         }
 
     }
-    public static void DealBlackjackHand(Deck deck, Hand dealer, List<Hand> players)
+    public static void DealBlackjackHand(Deck deck, Player dealer, List<Player> players)
     {
         // Method to Deal out the intial BlackJack hand
 
         for (int i = 0; i < 2; i++) // Deal two cards to each player (and the dealer)
         {
-            foreach (var hand in players) //foreach player
+            foreach (var player in players) //foreach player
             {
-                hand.Add(deck.Deal(1)); // Deal one card to player
+                player.Hand.Add(deck.Deal(1)); // Deal one card to player
             }
-            dealer.Add(deck.Deal(1));   // Deal one card to dealer 
+            dealer.Hand.Add(deck.Deal(1));   // Deal one card to dealer 
         }
 
     }
@@ -58,11 +62,12 @@ public class BlackjackGame : CardGame
         int k = 1;
         foreach (var player in Players)
         {
-            Console.Write($"P{k}: "); Players[k-1].Show();
+            Console.Write($"P{k}: ");
+            player.Hand.Show(); // Players[k-1].Hand.Show();
             k++;
         }
         Console.Write("\n");
-        Console.Write("Dealer: "); Dealer.ShowTop();
+        Console.Write("Dealer: "); Dealer.Hand.ShowTop();
 
         Console.Write("\nWould you like to play this Blackjack game? (Y/N): ");
         string input = Console.ReadLine(); 
@@ -92,7 +97,7 @@ public class BlackjackGame : CardGame
         //
 
         int k = 1; 
-        foreach (Hand player in Players)
+        foreach (var player in Players)
         {
             if (player.Name != null && string.Equals(player.Name.ToLower(),ChosenPlayer.ToLower()))
             {

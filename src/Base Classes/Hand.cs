@@ -109,5 +109,5 @@ public class Hand
         return handValue;
     }
     #endregion
-    
+
 }
