@@ -94,7 +94,7 @@ public class BlackjackGame : CardGame
         {
             if (player.Name != null && string.Equals(player.Name.ToLower(),ChosenPlayer.ToLower()))
             {
-                Console.WriteLi
+                //Console.WriteLi
             }
             else if (string.Equals(ChosenPlayer.ToLower(),$"P{k}".ToLower()))
             {
@@ -103,44 +103,34 @@ public class BlackjackGame : CardGame
 
                     
 
-
-            public override bool Equals(object obj)
-            {
-                //
-                // See the full list of guidelines at
-                //   http://go.microsoft.com/fwlink/?LinkID=85237
-                // and also the guidance for operator== at
-                //   http://go.microsoft.com/fwlink/?LinkId=85238
-                //
-                
-                if (obj == null || GetType() != obj.GetType())
-                {
-                    return false;
-                }
-                
-                // TODO: write your implementation of Equals() here
-                throw new System.NotImplementedException();
-                return base.Equals (obj);
-            }
-            
-            // override object.GetHashCode
-            public override int GetHashCode()
-            {
-                // TODO: write your implementation of GetHashCode() here
-                throw new System.NotImplementedException();
-                return base.GetHashCode();
-            })
-            {
-                
-            }
         }
-
-        Console.Write("\n")
-        string userInput = Console.ReadLine();
-
-        
     }
+    public override bool Equals(object obj)
+    {
+        //
+        // See the full list of guidelines at
+        //   http://go.microsoft.com/fwlink/?LinkID=85237
+        // and also the guidance for operator== at
+        //   http://go.microsoft.com/fwlink/?LinkId=85238
+        //
         
-
+        if (obj == null || GetType() != obj.GetType())
+        {
+            return false;
+        }
+        
+        // TODO: write your implementation of Equals() here
+        throw new System.NotImplementedException();
+        return base.Equals (obj);
     }
+            
+    // override object.GetHashCode
+    public override int GetHashCode()
+    {
+        // TODO: write your implementation of GetHashCode() here
+        throw new System.NotImplementedException();
+        return base.GetHashCode();
+    }
+
+} // End BlackjackGame class
 
