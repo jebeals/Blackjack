@@ -21,6 +21,7 @@ public class BlackjackPlayer : Player
             // Everything kept the same; just redirect the Hand variable's {get; set; }
             _blackjackHand = hand; 
     }
+
     public override Hand? Hand 
     {
         get { return _blackjackHand; } // Return BlackjackHand _blackjackHand instead of Hand Hand :D 

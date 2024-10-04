@@ -1,3 +1,4 @@
+using System.ComponentModel.Design;
 using System.Security;
 using System.Security.Cryptography;
 using System.Threading.Tasks.Dataflow;
@@ -5,7 +6,9 @@ using System.Threading.Tasks.Dataflow;
 public class BlackjackGame : CardGame
 {
     // public string Name {get; }
-    public Player Dealer {get; set; }
+    public BlackjackPlayer Dealer ; 
+    private List<BlackjackPlayer> _blackjackPlayers {get; set;}
+
 
     # region Inherited Field Reference
     // public Deck? Deck {get; set; } //INHERITED
@@ -16,25 +19,42 @@ public class BlackjackGame : CardGame
     {
         Name = "Blackjack";
         Deck = new Deck();
-        Dealer = new Player();
+        Dealer = new BlackjackPlayer();
 
     }
     public BlackjackGame(int numPlayers, int numDecks) //: CardGame(int numPlayers, int numDecks)
     {
+        this.numPlayers = numPlayers;
+        this.numDecks = numDecks;
 
         Name = $"{numDecks} Deck Blackjack";
         Deck = new Deck(numDecks);
         Deck.Shuffle();
 
-        //public BlackjackPlayer(string name, BlackjackHand hand, string role, double bank) : base(name, hand, role, bank)
-        BlackjackHand dealerHand = new BlackjackHand("Dealer"); 
+        _blackjackPlayers = new List<BlackjackPlayer>(); 
         Dealer = new BlackjackPlayer("Dealer","Dealer",0.0,new BlackjackHand("Dealer")); // Set up the Dealer's Hand
         for (int i = 0; i < numPlayers; i++) // Set up the Players Hands
         {
             Players.Add(new BlackjackPlayer($"P{i+1}","Player",0.0,new BlackjackHand($"P{i+1}"))); // Add in new player hands and call them P1, P2, etc.
+            Players[i] = (BlackjackPlayer)Players.Last(); 
+            _blackjackPlayers.Add((BlackjackPlayer)Players[i]); 
         }
 
+
     }
+    public void DealBlackjackHand()
+    {
+        // Method to Deal out the intial BlackJack hand
+
+        for (int i = 0; i < 2; i++) // Deal two cards to each player (and the dealer)
+        {
+            foreach (var player in Players) //foreach player
+            {
+                player.Hand.Add(Deck.Deal(1)); // Deal one card to player
+            }
+            Dealer.Hand.Add(Deck.Deal(1));   // Deal one card to dealer 
+        }
+    }    
     public static void DealBlackjackHand(Deck deck, Player dealer, List<Player> players)
     {
         // Method to Deal out the intial BlackJack hand
@@ -47,8 +67,8 @@ public class BlackjackGame : CardGame
             }
             dealer.Hand.Add(deck.Deal(1));   // Deal one card to dealer 
         }
-
     }
+
     public void StartBlackjackGame(int numPlayers, int numDecks)
     {
         // First thing is first, create the decks
@@ -113,21 +133,20 @@ public class BlackjackGame : CardGame
         }
     }
 
-    // public static int BasicStrategy(Hand Player, Hand Dealer)
+    // public static int BasicStrategy(BlackjackHand playerHand, Card dealerUpCard)
     // {
+    //     // Set the value of an Ace to 11...
+    //     if (dealerUpCard.Rank is "Ace" && dealerUpCard.Value != 11)
+    //     { dealerUpCard.Value = 11; }
 
 
-    // }
-    // public static int BasicStrategy(Hand playerHand, int dealerUpCard)
-    // {
-        
     //     double playerTotal = playerHand.GetValue(); 
     //     bool isSoftHand = playerHand.Contains(11); // Check if player has an Ace counted as 11
         
     //     // Check for surrender option (based on common surrender rules)
-    //     if (playerTotal == 16 && (dealerUpCard == 9 || dealerUpCard == 10 || dealerUpCard == 11)) 
+    //     if (playerTotal == 16 && (dealerUpCard.Value == 9 || dealerUpCard.Value == 10 || dealerUpCard.Value == 11)) 
     //         return 2; // Surrender on 16 vs. 9, 10, or Ace
-    //     if (playerTotal == 15 && dealerUpCard == 10) 
+    //     if (playerTotal == 15 && dealerUpCard.Value == 10) 
     //         return 2; // Surrender on 15 vs. 10
 
     //     // Check for pairs (splitting rules not included in the basic strategy)
